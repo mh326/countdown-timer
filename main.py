@@ -39,6 +39,7 @@ def main(page: ft.Page):
 
     def edit_view():
         mins, secs = countdown_timer.get_minutes_and_seconds()
+
         text_minutes = ft.TextField(
             label="minutes",
             value=str(mins),
@@ -51,6 +52,17 @@ def main(page: ft.Page):
             input_filter=ft.NumbersOnlyInputFilter(),
             width=100,
         )
+
+        def handle_text_field_changed(e):
+            value = e.control.value
+            try:
+                int(value)
+            except ValueError:
+                e.control.value = "0"
+                page.update()
+
+        text_minutes.on_change = handle_text_field_changed
+        text_seconds.on_change = handle_text_field_changed
 
         def button_clicked(e):
             minutes = int(text_minutes.value)
