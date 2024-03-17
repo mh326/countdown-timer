@@ -1,8 +1,10 @@
 import flet as ft
+from timer import CountdownTimer
 
 
 def main(page: ft.Page):
-    page.add(ft.SafeArea(ft.Text("Hello, Flet!")))
+    countdown_timer = CountdownTimer(60)
+    page.add(countdown_timer)
 
 
 ft.app(main)
