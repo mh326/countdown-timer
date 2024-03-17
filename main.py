@@ -4,7 +4,13 @@ from timer import CountdownTimer
 
 def main(page: ft.Page):
     countdown_timer = CountdownTimer(
-        60 * 10, interval=0.1, text_kwargs={"size": 80, "color": ft.colors.BLACK}
+        60 * 10,
+        interval=0.1,
+        text_kwargs={
+            "size": 90,
+            "color": ft.colors.BLACK,
+            "text_align": ft.TextAlign.CENTER,
+        },
     )
 
     def handle_fab_pressed(e):
@@ -35,6 +41,7 @@ def main(page: ft.Page):
             ],
         )
         view.floating_action_button = floating_action_button
+        view.horizontal_alignment = ft.CrossAxisAlignment.CENTER
         return view
 
     def edit_view():
@@ -95,6 +102,9 @@ def main(page: ft.Page):
 
     page.on_route_change = route_change
     page.go("/edit")
+
+    page.window_width = 300
+    page.window_height = 180
 
 
 ft.app(main)
