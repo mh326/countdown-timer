@@ -35,10 +35,14 @@ class CountdownTimer(ft.UserControl):
         self._left_seconds = seconds
         self.update_text(run_update)
 
+    def get_minutes_and_seconds(self):
+        seconds = math.floor(self._left_seconds)
+        mins, secs = divmod(seconds, 60)
+        return mins, secs
+
     def update_text(self, run_update=True):
         if self._left_seconds > 0:
-            seconds = math.floor(self._left_seconds)
-            mins, secs = divmod(seconds, 60)
+            mins, secs = self.get_minutes_and_seconds()
             self.countdown.text = "{:02d}:{:02d}".format(mins, secs)
         else:
             self.countdown.text = "Time Over"
