@@ -6,17 +6,19 @@ import flet as ft
 
 
 class CountdownTimer(ft.UserControl):
-    def __init__(self, seconds, interval=0.1, text_kwargs={}):
+    def __init__(self, seconds, interval=0.1, text_kwargs={}, text_timeover_kwargs={}):
         super().__init__()
         self._last_time = None
         self._is_running = False
         self._interval = interval
         self._text_kwargs = text_kwargs
+        self._text_timeover_kwargs = text_timeover_kwargs
 
         def on_click_timer(e):
             self.toggle()
 
-        self.countdown = ft.TextSpan("", on_click=on_click_timer)
+        self._textspan_countdown = ft.TextSpan("", on_click=on_click_timer)
+        self._text = ft.Text(spans=[self._textspan_countdown], **self._text_kwargs)
         self.set_seconds(seconds, run_update=False)
 
     def will_unmount(self):
@@ -33,6 +35,7 @@ class CountdownTimer(ft.UserControl):
 
     def set_seconds(self, seconds, run_update=True):
         self._left_seconds = seconds
+        self.set_text_kwargs(self._text_kwargs)
         self.update_text(run_update)
 
     def get_minutes_and_seconds(self):
@@ -43,9 +46,10 @@ class CountdownTimer(ft.UserControl):
     def update_text(self, run_update=True):
         if self._left_seconds > 0:
             mins, secs = self.get_minutes_and_seconds()
-            self.countdown.text = "{:02d}:{:02d}".format(mins, secs)
+            self._textspan_countdown.text = "{:02d}:{:02d}".format(mins, secs)
         else:
-            self.countdown.text = "Time Over"
+            self.set_text_kwargs(self._text_timeover_kwargs)
+            self._textspan_countdown.text = "Time Over"
 
         if run_update:
             self.update()
@@ -75,4 +79,8 @@ class CountdownTimer(ft.UserControl):
             self.start()
 
     def build(self):
-        return ft.Text(spans=[self.countdown], **self._text_kwargs)
+        return self._text
+
+    def set_text_kwargs(self, kwargs):
+        for k, v in kwargs.items():
+            setattr(self._text, k, v)

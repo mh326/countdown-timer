@@ -11,6 +11,11 @@ def main(page: ft.Page):
             "color": ft.colors.BLACK,
             "text_align": ft.TextAlign.CENTER,
         },
+        text_timeover_kwargs={
+            "size": 50,
+            "color": ft.colors.RED,
+            "text_align": ft.TextAlign.CENTER,
+        },
     )
 
     def handle_fab_pressed(e):
@@ -42,6 +47,7 @@ def main(page: ft.Page):
         )
         view.floating_action_button = floating_action_button
         view.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+        view.vertical_alignment = ft.MainAxisAlignment.CENTER
         return view
 
     def edit_view():
