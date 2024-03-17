@@ -81,9 +81,22 @@ def main(page: ft.Page):
         button_play = ft.IconButton(
             icon=ft.icons.PLAY_CIRCLE_FILL_OUTLINED, on_click=button_clicked
         )
+
+        def handle_switch_changed(e):
+            page.window_always_on_top = e.control.value
+            page.update()
+
+        switch_window_on_always_top = ft.Switch(
+            label="keep on top of other windows",
+            on_change=handle_switch_changed,
+            value=page.window_always_on_top,
+        )
         view = ft.View(
             "/edit",
-            [ft.Row([text_minutes, text_seconds, button_play])],
+            [
+                ft.Row([text_minutes, text_seconds, button_play]),
+                switch_window_on_always_top,
+            ],
         )
         return view
 
