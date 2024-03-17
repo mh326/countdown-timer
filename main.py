@@ -1,10 +1,14 @@
 import flet as ft
-from timer import CountdownTimer
+
+from views.timer import TimerView
+from views.edit import EditView
 
 
 def main(page: ft.Page):
-    countdown_timer = CountdownTimer(
-        60 * 10,
+    timer_view = TimerView(
+        "/timer",
+        page,
+        seconds=60 * 10,
         interval=0.1,
         text_kwargs={
             "size": 90,
@@ -18,106 +22,20 @@ def main(page: ft.Page):
         },
     )
 
-    def handle_fab_pressed(e):
-        countdown_timer.stop()
-        page.go("/edit")
-
-    floating_action_button = ft.FloatingActionButton(
-        icon=ft.icons.EDIT,
-        bgcolor=ft.colors.LIME_300,
-        on_click=handle_fab_pressed,
-    )
-
-    def handle_window_event(event):
-        if event.data == "focus":
-            floating_action_button.visible = True
-            page.update()
-        elif event.data == "blur":
-            floating_action_button.visible = False
-            page.update()
-
-    page.on_window_event = handle_window_event
-
-    def timer_view():
-        view = ft.View(
-            "/timer",
-            [
-                countdown_timer,
-            ],
-        )
-        view.floating_action_button = floating_action_button
-        view.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-        view.vertical_alignment = ft.MainAxisAlignment.CENTER
-        return view
-
-    def edit_view():
-        mins, secs = countdown_timer.get_minutes_and_seconds()
-
-        text_minutes = ft.TextField(
-            label="minutes",
-            value=str(mins),
-            input_filter=ft.NumbersOnlyInputFilter(),
-            width=100,
-        )
-        text_seconds = ft.TextField(
-            label="seconds",
-            value=str(secs),
-            input_filter=ft.NumbersOnlyInputFilter(),
-            width=100,
-        )
-
-        def handle_text_field_changed(e):
-            value = e.control.value
-            try:
-                int(value)
-            except ValueError:
-                e.control.value = "0"
-                page.update()
-
-        text_minutes.on_change = handle_text_field_changed
-        text_seconds.on_change = handle_text_field_changed
-
-        def button_clicked(e):
-            minutes = int(text_minutes.value)
-            seconds = int(text_seconds.value)
-            total_seconds = minutes * 60 + seconds
-            countdown_timer.set_seconds(total_seconds, run_update=False)
-            page.go("/timer")
-
-        button_play = ft.IconButton(
-            icon=ft.icons.PLAY_CIRCLE_FILL_OUTLINED, on_click=button_clicked
-        )
-
-        def handle_switch_changed(e):
-            page.window_always_on_top = e.control.value
-            page.update()
-
-        switch_window_on_always_top = ft.Switch(
-            label="keep on top of other windows",
-            on_change=handle_switch_changed,
-            value=page.window_always_on_top,
-        )
-        view = ft.View(
-            "/edit",
-            [
-                ft.Row([text_minutes, text_seconds, button_play]),
-                switch_window_on_always_top,
-            ],
-        )
-        return view
+    edit_view = EditView("/edit", page, timer_view.countdown_timer)
 
     def route_change(handler):
         troute = ft.TemplateRoute(handler.route)
 
         page.views.clear()
         if troute.match("/timer"):
-            page.views.append(timer_view())
+            page.views.append(timer_view)
         elif troute.match("/edit"):
-            page.views.append(edit_view())
+            page.views.append(edit_view)
         page.update()
 
         if troute.match("/timer"):
-            countdown_timer.start()
+            timer_view.countdown_timer.start()
 
     page.on_route_change = route_change
     page.go("/edit")
