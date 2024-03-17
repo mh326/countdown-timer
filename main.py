@@ -64,12 +64,16 @@ def main(page: ft.Page):
 
     def route_change(handler):
         troute = ft.TemplateRoute(handler.route)
+
         page.views.clear()
         if troute.match("/timer"):
             page.views.append(timer_view())
         elif troute.match("/edit"):
             page.views.append(edit_view())
         page.update()
+
+        if troute.match("/timer"):
+            countdown_timer.start()
 
     page.on_route_change = route_change
     page.go("/edit")
