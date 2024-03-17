@@ -40,10 +40,16 @@ def main(page: ft.Page):
     def edit_view():
         mins, secs = countdown_timer.get_minutes_and_seconds()
         text_minutes = ft.TextField(
-            label="minutes", value=str(mins), input_filter=ft.NumbersOnlyInputFilter()
+            label="minutes",
+            value=str(mins),
+            input_filter=ft.NumbersOnlyInputFilter(),
+            width=100,
         )
         text_seconds = ft.TextField(
-            label="seconds", value=str(secs), input_filter=ft.NumbersOnlyInputFilter()
+            label="seconds",
+            value=str(secs),
+            input_filter=ft.NumbersOnlyInputFilter(),
+            width=100,
         )
 
         def button_clicked(e):
