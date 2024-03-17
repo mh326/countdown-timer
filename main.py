@@ -29,7 +29,7 @@ def main(page: ft.Page):
 
     def timer_view():
         view = ft.View(
-            "/",
+            "/timer",
             [
                 countdown_timer,
             ],
@@ -51,7 +51,7 @@ def main(page: ft.Page):
             seconds = int(text_seconds.value)
             total_seconds = minutes * 60 + seconds
             countdown_timer.set_seconds(total_seconds, run_update=False)
-            page.go("/")
+            page.go("/timer")
 
         button_play = ft.IconButton(
             icon=ft.icons.PLAY_CIRCLE_FILL_OUTLINED, on_click=button_clicked
@@ -65,14 +65,14 @@ def main(page: ft.Page):
     def route_change(handler):
         troute = ft.TemplateRoute(handler.route)
         page.views.clear()
-        if troute.match("/"):
+        if troute.match("/timer"):
             page.views.append(timer_view())
         elif troute.match("/edit"):
             page.views.append(edit_view())
         page.update()
 
     page.on_route_change = route_change
-    page.go("/")
+    page.go("/edit")
 
 
 ft.app(main)
