@@ -6,11 +6,12 @@ import flet as ft
 
 
 class CountdownTimer(ft.UserControl):
-    def __init__(self, seconds, interval=0.1):
+    def __init__(self, seconds, interval=0.1, text_kwargs={}):
         super().__init__()
         self._last_time = None
         self._is_running = False
         self._interval = interval
+        self._text_kwargs = text_kwargs
 
         def on_click_timer(e):
             self.toggle()
@@ -70,6 +71,4 @@ class CountdownTimer(ft.UserControl):
             self.start()
 
     def build(self):
-        return ft.Text(
-            spans=[self.countdown],
-        )
+        return ft.Text(spans=[self.countdown], **self._text_kwargs)
