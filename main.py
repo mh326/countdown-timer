@@ -87,4 +87,4 @@ def main(page: ft.Page):
         page.go("/edit")
 
 
-ft.app(main)
+ft.app(target=main, assets_dir="assets")
