@@ -6,7 +6,14 @@ import flet as ft
 
 
 class CountdownTimer(ft.UserControl):
-    def __init__(self, seconds, interval=0.1, text_kwargs={}, text_timeover_kwargs={}):
+    def __init__(
+        self,
+        seconds,
+        interval=0.1,
+        text_kwargs={},
+        text_timeover_kwargs={},
+        on_timeover=None,
+    ):
         super().__init__()
         self._last_time = None
         self._is_running = False
@@ -29,6 +36,14 @@ class CountdownTimer(ft.UserControl):
             current_time = time.time()
             elapsed_time = current_time - self._last_time
             left_seconds = max(self._left_seconds - elapsed_time, 0)
+
+            if (
+                self.on_timeover is not None
+                and self._left_seconds > 0
+                and left_seconds == 0
+            ):
+                self.on_timeover()
+
             self.set_seconds(left_seconds)
             self._last_time = current_time
             time.sleep(self._interval)
