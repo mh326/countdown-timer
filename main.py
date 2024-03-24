@@ -15,6 +15,12 @@ parser.add_argument(
     help='Turn on "window always on top"',
 )
 parser.add_argument(
+    "-st",
+    "--sound-on-time-over",
+    action="store_true",
+    help='Turn on "sound on time over"',
+)
+parser.add_argument(
     "-a",
     "--auto-start",
     action="store_true",
@@ -61,6 +67,7 @@ def main(page: ft.Page):
             "text_align": ft.TextAlign.CENTER,
         },
     )
+    timer_view.countdown_timer.sound_on_time_over = args.sound_on_time_over
 
     edit_view = EditView("/edit", page, timer_view.countdown_timer)
 
