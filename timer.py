@@ -12,7 +12,6 @@ class CountdownTimer(ft.UserControl):
         interval=0.1,
         text_kwargs={},
         text_timeover_kwargs={},
-        on_timeover=None,
     ):
         super().__init__()
         self._last_time = None
@@ -20,6 +19,8 @@ class CountdownTimer(ft.UserControl):
         self._interval = interval
         self._text_kwargs = text_kwargs
         self._text_timeover_kwargs = text_timeover_kwargs
+
+        self.sound_on_time_over = True
 
         def on_click_timer(e):
             self.toggle()

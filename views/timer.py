@@ -29,7 +29,8 @@ class TimerView(ft.View):
         page.overlay.append(self.audio_alarm)
 
         def on_timeover():
-            self.audio_alarm.play()
+            if self.countdown_timer.sound_on_time_over:
+                self.audio_alarm.play()
 
         self.countdown_timer.on_timeover = on_timeover
 

@@ -45,9 +45,6 @@ def main(page: ft.Page):
 
     page.window_always_on_top = args.window_always_on_top
 
-    page.window_width = 300
-    page.window_height = 180
-
     timer_view = TimerView(
         "/timer",
         page,
@@ -72,8 +69,12 @@ def main(page: ft.Page):
 
         page.views.clear()
         if troute.match("/timer"):
+            page.window_width = 300
+            page.window_height = 180
             page.views.append(timer_view)
         elif troute.match("/edit"):
+            page.window_width = 300
+            page.window_height = 220
             page.views.append(edit_view)
         page.update()
 
