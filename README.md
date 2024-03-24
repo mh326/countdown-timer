@@ -15,11 +15,12 @@ https://github.com/mh326/countdown-timer/releases
 
 ## コマンドライン引数
 ```
-countdown-timer_windows.exe -m 1 -s 30 -w -a
+countdown-timer_windows.exe -m 1 -s 30 -w -st -a
 ```
 | オプション                    | 説明                              |
 | ----------------------------- | --------------------------------- |
 | `-m` `--min`                  | 初期値（分）                      |
 | `-s` `--sec`                  | 初期値（秒）                      |
 | `-w` `--window-always-on-top` | "window always on top" をONにする |
+| `-st` `--sound-on-time-over`  | "sound on time over" をONにする   |
 | `-a` `--auto-start`           | 起動時にタイマーを開始する        |
