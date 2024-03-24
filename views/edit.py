@@ -41,16 +41,26 @@ class EditView(ft.View):
             icon=ft.icons.PLAY_CIRCLE_FILL_OUTLINED, on_click=button_clicked
         )
 
-        def handle_switch_changed(e):
+        def handle_switch_window_on_always_top_changed(e):
             page.window_always_on_top = e.control.value
             page.update()
 
         switch_window_on_always_top = ft.Switch(
             label="keep on top of other windows",
-            on_change=handle_switch_changed,
+            on_change=handle_switch_window_on_always_top_changed,
             value=page.window_always_on_top,
+        )
+
+        def handle_switch_sound_on_time_over(e):
+            countdown_timer.sound_on_time_over = e.control.value
+
+        switch_sound_on_time_over = ft.Switch(
+            label="sound on time over",
+            on_change=handle_switch_sound_on_time_over,
+            value=countdown_timer.sound_on_time_over,
         )
         self.controls = [
             ft.Row([text_minutes, text_seconds, button_play]),
             switch_window_on_always_top,
+            switch_sound_on_time_over,
         ]
